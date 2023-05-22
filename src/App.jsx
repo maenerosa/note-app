@@ -1,10 +1,16 @@
+import { useState } from "react";
 import "./App.css";
-import NoteBook from "./components/NoteBook";
+import NoteForm from "./components/NoteForm";
+import NoteList from "./components/NoteList";
 
 function App() {
+  const [notes, setNotes] = useState([]);
+
   return (
     <div>
-      <NoteBook />
+      <h1>Notes</h1>
+      <NoteList notes={notes} setNotes={setNotes} />
+      <NoteForm notes={notes} setNotes={setNotes} />
     </div>
   );
 }

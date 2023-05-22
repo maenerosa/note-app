@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import noteService from "../services/notes";
 
 function NoteForm({ notes, setNotes }) {
   const [newNote, setNewNote] = useState("");
@@ -13,24 +13,23 @@ function NoteForm({ notes, setNotes }) {
       id: notes.length + 1,
     };
 
-    axios
-      .post("http://localhost:3001/notes", noteObject)
+    noteService
+      .createNote(noteObject)
       .then((response) => {
-        setNotes(notes.concat(response.data));
+        setNotes([...notes, response.data]);
         setNewNote("");
       })
-      .catch((error) => {
-        console.log(error);
-        setNewNote("");
-      });
+      .catch((error) => console.log(error));
   };
 
-  const handleNoteChange = (event) => setNewNote(event.target.value);
+  const handleNoteChange = (event) => {
+    setNewNote(event.target.value);
+  };
 
   return (
     <form onSubmit={addNote}>
       <input type="text" value={newNote} onChange={handleNoteChange} />
-      <button type="submit">Save</button>
+      <button type="submit">save</button>
     </form>
   );
 }
